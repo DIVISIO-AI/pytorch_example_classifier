@@ -1,0 +1,33 @@
+---
+# Name to group all runs under
+experiment: 'Vegetable Classifier'
+# Dataset was downloaded from https://www.kaggle.com/datasets/misrakahmed/vegetable-image-dataset?resource=download
+# training data, must contain one folder for every class
+trainingFolder: '/path/to/data/Vegetable Images/train'
+# validation data, must contain one folder for every class
+validationFolder: '/path/to/data/Vegetable Images/validation'
+# number of epochs to train for
+numEpochs: 3
+# batch size
+batchSize: 64
+# name of the architecture on the torchvision hub
+architecture: 'resnet18'
+# input size for the architecture (may differ from architecture to architecture - adjust accordingly)
+imageSize: 224
+# number of classes to train for
+classCount: 15
+# weights to preload, comment out to start training from scratch
+modelWeights: 'IMAGENET1K_V1'
+# initial learning rate
+learningRate: 0.001
+# log every 5 seconds
+logEvery: 5
+# run validation every 15 mins
+validateEvery: -1
+# save once an hour
+saveEvery: 3600
+# when you switch to debug, you get a lot of low level info from data loading etc. - mostly you do
+# not want this, but it may be useful for finding bugs in your setup
+logLevel: 'info'
+# to continue a training, set the path to the pth file here:
+checkpoint: '/path/to/checkpoint/the_name_of_the_checkpoint.pth'
