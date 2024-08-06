@@ -8,7 +8,6 @@ import sys
 import time
 import yaml
 from pathlib import Path
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -179,13 +178,13 @@ class Trainer:
         # started with together with the results
         shutil.copy(Path(args.config), self.output_path / os.path.basename(args.config))
 
-        logging.info("Intitializing train data loader.")
+        logging.info("Initializing train data loader.")
         self.training_data_loader, _ = create_loader(
             image_folder=self.h_params.training_folder,
             image_size=self.h_params.image_size,
             batch_size=self.h_params.batch_size,
             train=True)
-        logging.info("Intitializing validation data loader.")
+        logging.info("Initialising validation data loader.")
         self.validation_data_loader, _ = create_loader(
             image_folder=self.h_params.validation_folder,
             image_size=self.h_params.image_size,
@@ -311,7 +310,11 @@ class Trainer:
         for batch_idx, (inputs, labels) in enumerate(validation_data_loader):
             inputs = inputs.to(self.device)
             labels = labels.to(self.device)
-            logits = self.model(inputs)
+
+            # Disable gradients
+            with torch.no_grad():
+                logits = self.model(inputs)
+
             loss = self.loss_function(logits, labels)
             validation_step_counter += 1
             accumulated_loss += loss.item()

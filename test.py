@@ -51,7 +51,11 @@ class Tester:
             filepath = dataset.imgs[idx][0]
             (input, label) = dataset.__getitem__(idx)
             input_batch = input.unsqueeze(0)
-            logits = self.model(input_batch)
+
+            # Disable gradients
+            with torch.no_grad():
+                logits = self.model(input_batch)
+
             pred = logits.max(dim=1)[1].item()
             is_pred_correct = pred == label
             if is_pred_correct:
@@ -65,10 +69,10 @@ class Tester:
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--config", help="configuration file (required)")
-    parser.add_argument("-cp", "--checkpoint", help="Pretrained classification model")
-    parser.add_argument("-o", "--output", help="output debug folder")
-    parser.add_argument("input", help="folder with test data")
+    parser.add_argument("-c", "--config", help="configuration file (required)", required=True)
+    parser.add_argument("-cp", "--checkpoint", help="Pretrained classification model", required=True)
+    parser.add_argument("-o", "--output", help="output debug folder", required=True)
+    parser.add_argument("input", help="folder with test data", required=True)
     return parser.parse_args()
 
 
